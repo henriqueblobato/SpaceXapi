@@ -10,6 +10,16 @@ from django.db import models
 # Goal: Query the last known position for a given satellite.
 
 
+class Done(models.Model):
+    file_mapped = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.file_mapped
+
+    def __repr__(self):
+        return self.file_mapped
+
+
 class Country(models.Model):
     code = models.CharField(max_length=2)
 

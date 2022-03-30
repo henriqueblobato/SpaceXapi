@@ -66,10 +66,17 @@ class ApiSpaceConfig(AppConfig):
 
     # @thread_task
     def populate_db(self):
+
+        from api_space.models import Done
+        done, _ = Done.objects.get_or_create()
+
+        if done.file_mapped:
+            print('File already mapped')
+            return
+
         from api_space.models import SpaceTrack, ObjectType, Country, Launch
         from file_reader_tools.file_iterator import FileReader
-
-        print('Start populating db')
+        print('Start populating DB')
 
         file_reader = FileReader()
         file_content = file_reader.json_file_iterator(filename=SPACECRAFT_FILE)
@@ -87,13 +94,16 @@ class ApiSpaceConfig(AppConfig):
             )
             country_code.save()
 
-            launch_parsed_date = iso_to_date_object(space_track_info['launch_date'])
-            launch, was_created = Launch.objects.get_or_create(
-                launch_id=space_track_info['launch'],
-                date=launch_parsed_date,
-            )
-            launch.date = launch_parsed_date
-            launch.save()
+            try:
+                launch_parsed_date = iso_to_date_object(space_track_info['launch_date'])
+                launch, was_created = Launch.objects.get_or_create(
+                    launch_id=space_track_info['launch'],
+                    date=launch_parsed_date,
+                )
+                launch.date = launch_parsed_date
+                launch.save()
+            except:
+                print(f'Error parsing launch date {space_track_info["launch_date"]}')
 
             space_track_parsed_date = iso_to_date_object(space_track_info['creation_date'])
             space_track, was_created = SpaceTrack.objects.get_or_create(
@@ -109,4 +119,6 @@ class ApiSpaceConfig(AppConfig):
             )
             space_track.save()
 
-        print('End populating db')
+        done.file_mapped = True
+        done.save()
+        print('End populating DB')
