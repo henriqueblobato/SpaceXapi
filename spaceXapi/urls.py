@@ -17,10 +17,12 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 
-from api_space.views import SpaceTrackViewSet
+from api_space.views import SpaceTrackViewSet, LaunchViewSet, ObjectTypeViewSet
 
 router = routers.DefaultRouter()
 router.register(r'spacetracks', SpaceTrackViewSet)
+router.register(r'launch', LaunchViewSet)
+router.register(r'objecttype', ObjectTypeViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
