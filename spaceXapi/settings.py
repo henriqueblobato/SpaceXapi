@@ -9,8 +9,20 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
-
+import os
 from pathlib import Path
+
+from dotenv import load_dotenv
+
+
+load_dotenv(
+    dotenv_path=Path('.') / '.env',
+    verbose=True,
+    override=True,
+    encoding='utf-8'
+)
+
+SPACECRAFT_FILE = os.getenv('SPACECRAFT_FILE')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -37,6 +49,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'api_space',
 ]
 
 MIDDLEWARE = [
