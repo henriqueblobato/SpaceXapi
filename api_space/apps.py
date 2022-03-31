@@ -26,14 +26,14 @@ def flatten_data(d):
     return out
 
 
-# @thread_task
+@thread_task
 def epoch_to_date_object(epoch):
     #  2020-10-13T02:56:59.566560
     date = datetime.datetime.fromtimestamp(epoch, tz=datetime.timezone.utc)
     return date
 
 
-# @thread_task
+@thread_task
 def iso_to_date_object(iso):
     while True:
         for date_format in [
@@ -64,7 +64,7 @@ class ApiSpaceConfig(AppConfig):
         self.populate_db()
         print('api_space app is loaded', '*' * 50)
 
-    # @thread_task
+    @thread_task
     def populate_db(self):
 
         from api_space.models import Done
