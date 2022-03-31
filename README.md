@@ -2,7 +2,6 @@
 This project reads a json file of ships from the starlink project and adds them to a database. To use it you just need to specify the file directory in the .env file and run the containers.
 An api will be made available for you to consume the data. All answers contain pagination for a faster response.
 
-
 ## How to run 
 1. Set your .env file, here is a sample
 ```
@@ -47,3 +46,8 @@ POST GET PUT PATH of Launches, based on their IDs
 
 ### "/objecttype/"
 POST GET PUT PATH for the aircraft object type. I thought there would be more :)
+
+## Online deployed server
+```
+https://spacex-api-123.herokuapp.com/
+```
