@@ -15,14 +15,22 @@ class LaunchSerializer(serializers.ModelSerializer):
 class ObjectTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = ObjectType
-        fields = '__all__'
+        fields = ('type',)
 
 
 class SpaceTrackSerializer(serializers.ModelSerializer):
 
     country_code = serializers.StringRelatedField(source='country_code.code')
-    object_type = ObjectTypeSerializer().fields
+    object_type = ObjectTypeSerializer()
     launch = LaunchSerializer()
+
+    def validate(self, attrs):
+        return super().validate(attrs)
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        representation['country_code'] = representation['country_code'].upper()
+        return representation
 
     class Meta:
         model = SpaceTrack
