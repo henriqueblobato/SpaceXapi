@@ -1,8 +1,5 @@
 import os
-from time import sleep
-from typing import Union, Tuple, List
-
-import pandas as pd
+from typing import Tuple, List
 import json
 
 from tqdm import tqdm

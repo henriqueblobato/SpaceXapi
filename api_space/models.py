@@ -2,13 +2,6 @@ from uuid import uuid4
 
 from django.db import models
 
-# Create your models here.
-# - spaceTrack.creation_date (represents the time that the lat/lon records were recorded)
-# - longitude
-# - latitude
-# - id (this is the starlink satellite id)
-# Goal: Query the last known position for a given satellite.
-
 
 class Done(models.Model):
     file_mapped = models.BooleanField(default=False)

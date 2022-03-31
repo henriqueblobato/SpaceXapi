@@ -1,16 +1,6 @@
 from math import radians, cos, sin, asin, sqrt
-from operator import attrgetter
 
-from django.db.models import QuerySet, Case, When
-from django.shortcuts import render
-
-# Create your views here.
 from rest_framework import viewsets
-from rest_framework.response import Response
-from rest_framework.templatetags import rest_framework
-import django_filters.rest_framework
-
-from api_space.apps import thread_task, iso_to_date_object
 from api_space.models import (
     SpaceTrack,
     Launch,
@@ -45,16 +35,8 @@ class SpaceTrackViewSet(viewsets.ModelViewSet):
         if identifier:
             queryset = queryset.filter(identifier__icontains=identifier)
         if coordinates:
-            lat, lon = coordinates.split(',')
-            lat, lon = float(lat), float(lon)
-            tracks_dict = {}
-            for tracks in queryset:
-                haversine_result_km = self.haversine(tracks.latitude, tracks.longitude, lat, lon)
-                if haversine_result_km:
-                    tracks_dict[tracks] = haversine_result_km
-
-            sorted_tracks = dict(sorted(tracks_dict.items(), key=lambda item: item[1])[:10])
-            return queryset.filter(object_name__in=list(sorted_tracks.keys()))
+            queryset = self.calculate_haversine(queryset, coordinates)
+            return queryset
 
         return queryset.order_by('-creation_date')
 
@@ -76,6 +58,18 @@ class SpaceTrackViewSet(viewsets.ModelViewSet):
         km = 6371 * c
         km = round(km, 2)
         return km
+
+    def calculate_haversine(self, queryset, coordinates):
+        lat, lon = coordinates.split(',')
+        lat, lon = float(lat), float(lon)
+        tracks_dict = {}
+        for tracks in queryset:
+            haversine_result_km = self.haversine(tracks.latitude, tracks.longitude, lat, lon)
+            if haversine_result_km:
+                tracks_dict[tracks] = haversine_result_km
+
+        sorted_tracks = dict(sorted(tracks_dict.items(), key=lambda item: item[1])[:10])
+        return queryset.filter(object_name__in=list(sorted_tracks.keys()))
 
 
 class LaunchViewSet(viewsets.ModelViewSet):
