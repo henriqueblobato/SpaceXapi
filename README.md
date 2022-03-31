@@ -41,7 +41,7 @@ Also available in all mixins
 
 IMPORTANT: All parameter combinations return the history of the last locations of the aircraft, from the most recent to the oldest in descending order.
 
-IMPORTTANT: when the timestamp is informed, the order of response will always be in the lagitude and longitude of the closest ships to the location in kilometers, using the Haversine calculation.
+IMPORTTANT: when the coordinates is informed, the order of response will always be in the lagitude and longitude of the closest ships to the location in kilometers, using the Haversine calculation.
 
 ### "/launch/"
 POST GET PUT PATCH of Launches, based on their IDs
