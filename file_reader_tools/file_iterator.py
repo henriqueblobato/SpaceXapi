@@ -78,3 +78,10 @@ class FileReader:
         f.close()
         for element in json.loads(data):
             yield element
+
+    def json_file_iterator_with_progress_bar(self, filename: str) -> dict:
+        f = open(filename, 'r')
+        data = f.read()
+        f.close()
+        for element in tqdm(json.loads(data)):
+            yield element
