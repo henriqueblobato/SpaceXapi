@@ -40,7 +40,7 @@ class SpaceTrack(models.Model):
     primary_key = models.AutoField(primary_key=True)
     identifier = models.CharField(
         max_length=50,
-        default=str(uuid4),
+        default=uuid4,
         editable=False,
     )
     object_name = models.CharField(max_length=100)
@@ -48,7 +48,7 @@ class SpaceTrack(models.Model):
     longitude = models.FloatField(null=True, blank=True)
     latitude = models.FloatField(null=True, blank=True)
     height_km = models.FloatField(null=True, blank=True)
-    country_code = models.ForeignKey(Country, on_delete=models.CASCADE)
+    country_code = models.ForeignKey(Country, on_delete=models.CASCADE, default=1)
     object_type = models.ForeignKey(ObjectType, on_delete=models.CASCADE)
 
     launch = models.ForeignKey(Launch, on_delete=models.CASCADE)
