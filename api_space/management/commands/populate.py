@@ -2,10 +2,15 @@ import datetime
 from threading import Thread
 
 from spaceXapi.settings import SPACECRAFT_FILE
-from api_space.models import SpaceTrack, ObjectType, Country, Launch, Done
+from api_space.models import SpaceTrack, ObjectType, Country, Launch
 from file_reader_tools.file_iterator import FileReader
 
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
+
+
+def printt(obj, *args, **kwargs):
+    print(*args, **kwargs)
+    obj.stdout.write('Start populating DB')
 
 
 def thread_task(func):
@@ -34,7 +39,6 @@ def epoch_to_date_object(epoch):
     return date
 
 
-@thread_task
 def iso_to_date_object(iso):
     while True:
         for date_format in [
@@ -52,10 +56,9 @@ def iso_to_date_object(iso):
                 )
                 return tz_date
             except ValueError:
-                pass
-            except Exception:
-                break
-
+                continue
+            except Exception as e:
+                continue
         return None
 
 
@@ -67,15 +70,8 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
 
-        done, _ = Done.objects.get_or_create()
-
-        if done.file_mapped:
-            self.stdout.write('File already mapped')
-            return
-
+        printt(self, 'Start populating DB')
         file_name = options.get('file', SPACECRAFT_FILE)
-
-        self.stdout.write('Start populating DB')
 
         file_reader = FileReader()
         file_content = file_reader.json_file_iterator_with_progress_bar(filename=file_name)
@@ -116,9 +112,7 @@ class Command(BaseCommand):
                 space_track.save()
 
             except Exception as e:
-                self.stdout.write(f'Error: {type(e)} {format(e)}')
-                self.stdout.write(f'Error parsing launch date {space_track_info}')
+                printt(self, f'Error: {type(e)} {format(e)}')
+                print(self, f'Error parsing launch date {space_track_info}')
 
-        done.file_mapped = True
-        done.save()
-        self.stdout.write('End populating DB')
+        printt(self, 'End populating DB')
