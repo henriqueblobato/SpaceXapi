@@ -39,9 +39,14 @@ Also available in all mixins
 - /spacetracks/?object_name=SPACE_SHIP_NAME&identifier=a1b2c3r4t5y6&ts=2021-12-05
 - /spacetracks/?object_name=SPACE_SHIP_NAME&coordinates=-12.123123,12.345345&ts=2021-12-05&country_code=US
 
-IMPORTANT: All parameter combinations return the history of the last locations of the aircraft, from the most recent to the oldest in descending order.
+#### `coordinates` parameter
+when the coordinates is informed, the order of response will always be in the lagitude and longitude of the closest ships to the location in kilometers, using the Haversine calculation.
 
-IMPORTTANT: when the coordinates is informed, the order of response will always be in the lagitude and longitude of the closest ships to the location in kilometers, using the Haversine calculation.
+```
+IMPORTANT: All parameter combinations return the history of the last
+locations of the aircraft, from the most recent
+to the oldest.
+```
 
 ### "/launch/"
 POST GET PUT PATCH of Launches, based on their IDs
