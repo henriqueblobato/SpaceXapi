@@ -26,7 +26,7 @@ When preparing the environment, a progress bar will show the percentage of files
 ## Available endpoints
 
 ### "/spacetracks/"
-POST GET PUT PATH of SpaceTracks
+POST GET PUT PATCH of SpaceTracks
 
 Available filters:
 - /spacetracks/?object_name=SPACE_SHIP_NAME
@@ -42,10 +42,10 @@ Also available in all mixins
 Importantly, when the timestamp is informed, the order of response will always be in the lagitude and longitude of the closest ships to the location in kilometers, using the Haversine calculation.
 
 ### "/launch/"
-POST GET PUT PATH of Launches, based on their IDs
+POST GET PUT PATCH of Launches, based on their IDs
 
 ### "/objecttype/"
-POST GET PUT PATH for the aircraft object type. I thought there would be more :)
+POST GET PUT PACTH for the aircraft object type. I thought there would be more :)
 
 ## Online deployed server
 ```
