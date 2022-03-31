@@ -1,0 +1,1 @@
+web: gunicorn spaceXapi.wsgi
